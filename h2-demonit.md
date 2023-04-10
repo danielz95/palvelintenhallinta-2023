@@ -165,6 +165,12 @@ Tässä nähdään 3 tehtyä toimenpidettä yhteensä, josta 2 oli havaittu muut
 - file.managed (Muutos havaittu, muokattiin sshd_config tiedostoa ja lisättiin rivi 'Port: 22')
 - service.running (Muutos havaittu, sshd käynnistetty uudelleen muutoksia havaitessa.)
 
+Yritin vielä testaa ssh-yhteyden 't001' minion koneeseen, mutta ei löytynyt sopivaa salasanaa, eikä publickey:ta.
+Porttiyhteys kuitenkin toimii:
+
+![image](https://user-images.githubusercontent.com/128583292/230823544-8ff49d5a-6193-4288-a8c0-1c3873a60409.png)
+
+
 
 
 # Lähteet
