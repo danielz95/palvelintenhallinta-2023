@@ -160,14 +160,11 @@ Tallennuksen jälkeen ajoin **state.apply** komennon uudestaan seuraavilla tulok
 ![image](https://user-images.githubusercontent.com/128583292/230820878-111f8843-1068-4d7d-92a6-e76f7b1a6b99.png)
 ![image](https://user-images.githubusercontent.com/128583292/230820943-c05c8f11-8057-4851-aca4-7802ab53b69b.png)
 
-Tässä nähdään 3 tehtyä toimenpidettä yhteensä:
-- pkg.installed
-- file.managed
-- service.running
+Tässä nähdään 3 tehtyä toimenpidettä yhteensä, josta 2 oli havaittu muutoksia.
+- pkg.installed (Ei muutoksia, sshd on jo asennettuna ja ajan tasalla)
+- file.managed (Muutos havaittu, muokattiin sshd_config tiedostoa ja lisättiin rivi 'Port: 22')
+- service.running (Muutos havaittu, sshd käynnistetty uudelleen muutoksia havaitessa.)
 
-Näistä 2 oli tullut muutoksia, eli:
-- file.managed (muokattiin sshd_config tiedostoa, jossa näkyy muokatut tiedot)
-- service.running (sshd daemonin automaattinen uudelleenkäynnistys muutoksien tekemisen jälkeen)
 
 
 # Lähteet
