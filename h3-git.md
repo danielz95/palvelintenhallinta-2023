@@ -74,3 +74,9 @@ Tässä näkyy, kuka (Author) on tehnyt muutoksia, milloin ne on tehty (Date) ja
 
 Alimmilla riveillä näkyy, mihin tiedostoihin muutokset koskevat ja mitä muutoksia kyseisiin tiedostoihin on tehty.
 
+
+# Lähteet
+
+Tero Karvinen, h3 Git, https://terokarvinen.com/2023/palvelinten-hallinta-2023-kevat/
+
+An Insightful Techie (YouTube video), Beginners Git Commands, https://youtube.com/watch?v=Uz_mTOQL9Tw
