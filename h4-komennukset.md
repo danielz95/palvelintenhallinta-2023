@@ -167,7 +167,15 @@ Ajoit state.apply salt komennon uudestaan, jotta uusi 'init.sls' tila päivittyi
 
 Tällä kertaa error:in syy on Exec format error. **Tämä todennäköisesti johtuu siitä, että olin ladannut väärän version microsta, joka ei käy minun linux versiolleni. Täytyy kokeilla ladata eri versiota ja kokeilla uudestaan.**
  
- 
+# Lähteet
+
+h4 Komennukset, Tero Karvinen, <a> https://terokarvinen.com/2023/palvelinten-hallinta-2023-kevat/ </a>
+
+Salt tips, saltproject.io, <a> https://docs.saltproject.io/en/getstarted/config/files.html </a>
+
+Error troubleshooting, Superuser.com, <a> https://superuser.com/questions/435988/how-can-i-resolve-the-error-cannot-execute-binary-file </a>
+
+
     
 
 
