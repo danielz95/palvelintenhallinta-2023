@@ -128,7 +128,46 @@ Käytin 'wget' komentoa sen lataamiseen 'tmaster' koneelle:
 
 **Korjauksena ylläoleva toimenpide tehty 'tmaster' koneella, ei 't001' koneella.**
 
+Purin tiedoston 'tmaster' kotihakemistoonsa:
 
+    tar xvf micro-2.0.11-linux-arm64.tar
+
+![image](https://user-images.githubusercontent.com/128583292/234675194-a5da500a-310a-46ff-b3d7-82e33f382221.png)
+
+Tein tämän jälkeen uuden 'micro' kansion '/srv/salt' hakemistoon ja kopioin micro binääritiedoston siihen:
+
+    sudo mkdir /srv/salt/micro
+    sudo cp micro /srv/salt/micro
+
+![image](https://user-images.githubusercontent.com/128583292/234676330-34f3c38a-4da1-4128-959a-1411cae5dbfe.png)
+
+Loin tämän jälkeen 'init.sls' tiedoston '/srv/salt/micro' hakemistoon
+
+    sudoedit init.sls
+    
+ ![image](https://user-images.githubusercontent.com/128583292/234679316-e5c0ff5f-97f1-4059-beaa-7dca1ba56589.png)
+
+Tallensin 'init.sls' tiedoston ja ajoin komennon siirtää micro:n minion koneille:
+ 
+    sudo salt '*' state.apply micro
+ 
+ ![image](https://user-images.githubusercontent.com/128583292/234679209-6f92304b-2b4d-4bd2-b0cb-c1b253db0086.png)
+
+Yritin tämän jälkeen käynnistää micron minion koneilla, mutta tuli error (Permission denied):
+
+![image](https://user-images.githubusercontent.com/128583292/234679837-c26d3b7a-0b09-451f-9d8b-5ef9db3bb605.png)
+
+Muutin 'init.sls' tiedoston hieman, että se antaa riittävät oikeudet micron ajamiseen minion koneilla:
+
+![image](https://user-images.githubusercontent.com/128583292/234680162-9662bfe6-1c34-41eb-8a38-1d76bb9cb5f1.png)
+
+Ajoit state.apply salt komennon uudestaan, jotta uusi 'init.sls' tila päivittyisi uusilla oikeuksilla ja yritin ajaa cmd.run komentoa sen jälkeen uudestaan:
+
+![image](https://user-images.githubusercontent.com/128583292/234681912-28ac2f5e-7a1f-495a-9e8b-7b73df91f9a2.png)
+
+Tällä kertaa error:in syy on Exec format error. **Tämä todennäköisesti johtuu siitä, että olin ladannut väärän version microsta, joka ei käy minun linux versiolleni. Täytyy kokeilla ladata eri versiota ja kokeilla uudestaan.**
+ 
+ 
     
 
 
