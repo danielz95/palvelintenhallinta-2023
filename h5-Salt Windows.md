@@ -45,16 +45,66 @@ Latasin Windows 11 Enterprise VMware ympäristön suoraan Microsoftin sivulta ht
  
 ![image](https://user-images.githubusercontent.com/128583292/235736725-3225a20f-dd10-4653-bb3c-9b92238ecd5c.png)
 
-Tämän jälkeen avasin Win 11 virtuaalikoneen ja latasin Salt Minion:in, sekä .gpg avaimen linkistä: (https://docs.saltproject.io/salt/install-guide/en/latest/topics/install-by-operating-system/windows.html)
+Tämän jälkeen avasin Win 11 virtuaalikoneen ja latasin Salt Minion:in linkistä: (https://docs.saltproject.io/salt/install-guide/en/latest/topics/install-by-operating-system/windows.html)
 
 Lataamisen jälkeen ajoin asennusohjelman Windowsin Salt Minionille:
 
-Asennusohjelmassa painetaan 'Next' niin kauan, kunnes pyydetään syöttämään 'Master IP' ja Minion Name, jonka syöttämisen jälkeen valitaan 'Install'.
+#### Asennusohjelmassa painetaan 'Next' niin kauan, kunnes pyydetään syöttämään 'Master IP' ja 'Minion Name', joiden syöttämisen jälkeen valitaan 'Install'.
 
 ![image](https://user-images.githubusercontent.com/128583292/235772826-327d91a2-0ee6-46c6-8539-9c6ae86bab19.png)
 ![image](https://user-images.githubusercontent.com/128583292/235775769-8a6f588e-754e-407f-9da2-7798a03f3adc.png)
 ![image](https://user-images.githubusercontent.com/128583292/235777059-731276d6-ef57-4760-9e36-39cfcf09dd15.png)
 
+N. 2 minuutin asennuksen jälkeen, Salt Minion asentuu Windows koneelle. Nyt voidaan testata yhteyden Masterin kautta ottaa
+yhteys minioniin.
+
+Hyväksytin ensin Salt Minionin avaimen Master koneelta:
+
+    sudo salt-key -A
+
+![image](https://user-images.githubusercontent.com/128583292/235779083-c2d7fcf5-e2e8-4428-8f03-69a0ff166560.png)
+
+Seuraavaksi testasin yhteyden:
+
+    sudo salt minion1 test.ping
+    sudo salt '*' cmd.run 'echo Hello!'
+
+![image](https://user-images.githubusercontent.com/128583292/235780194-94df494a-af04-4128-9557-28b9c9413c75.png)
+
+Yhteys Windows Minion ja Ubuntu Masterin välillä on testattu onnistuneesti!
+
+# b) Saltin käyttö Windows Minion koneelta paikallisesti
+
+Seuraavaksi käytetään Salt:ia paikallisesti, ilman masteria Windows Minion koneella.
+
+Ensin avataan PowerShell administrator oikeuksilla:
+
+### 'Windows' nappi -> kirjoita hakukenttään 'PowerShell' -> oik. klik. PS-ikonia -> Run as Administrator
+![image](https://user-images.githubusercontent.com/128583292/235783107-b6bc8371-f2b5-4f47-a5e0-0bdc506537d6.png)
+![image](https://user-images.githubusercontent.com/128583292/235783179-87e8145e-ce81-4775-a9d4-c360ac989db2.png)
+
+Testasin paikallisia Salt komentoja:
+
+    salt-call --local state.single cmd.run 'whoami'
+    
+    salt-call --local grains.item cpu_model
+
+![image](https://user-images.githubusercontent.com/128583292/235791317-228f5e61-36c4-45a9-abc2-3b8f8bf4b6b5.png)
+![image](https://user-images.githubusercontent.com/128583292/235792229-2927b0c2-f672-4e43-9847-4ffe74a6b606.png)
+
+Kuten näkyy, komennot menevät läpi ja Salt näyttää toimivan paikallisesti.
+
+# c) 'Hello World!'-skripti Windows Minion koneelle Saltilla
 
 
- 
+
+# Lähteet
+
+Infra as Code course 2023, Karvinen T., https://terokarvinen.com/2023/palvelinten-hallinta-2023-kevat/
+
+Control Windows with Salt, Karvinen T., https://terokarvinen.com/2018/control-windows-with-salt/
+
+Salt minion windows '.exe' file, saltproject.io, https://docs.saltproject.io/salt/install-guide/en/latest/topics/install-by-operating-system/windows.html
+
+Windows 11 Enterprise VM download, Microsoft, https://developer.microsoft.com/en-us/windows/downloads/virtual-machines/
+
