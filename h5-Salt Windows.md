@@ -94,10 +94,43 @@ Testasin paikallisia Salt komentoja:
 
 Kuten näkyy, komennot menevät läpi ja Salt näyttää toimivan paikallisesti.
 
-# c) 'Hello World!'-skripti Windows Minion koneelle Saltilla
+# c) 'Hello windows!' tiedosto Windows Minion koneelle Saltilla
+
+Tässä teen Hello_windows.txt tiedoston Master koneelta, jonka pusken Minion koneelle käyttäen idempotentti-tilaa.
+
+Loin ensin Master koneelle uuden '/srv/salt/win' tiedostopolun, johon tein 'Hello_windows.txt' tiedoston ja sen lisäksi 'init.sls' tiedoston.
+
+    sudo mkdir /srv/salt/win/
+    
+![image](https://user-images.githubusercontent.com/128583292/235812640-31cfb9e1-c236-4377-9cc8-683723752705.png)
+
+    sudoedit Hello_windows.txt
+    
+![image](https://user-images.githubusercontent.com/128583292/235812730-54a5c1ba-5e7d-4e1e-bc4d-fb02a635eb66.png)
+
+    sudoedit init.sls
+
+![image](https://user-images.githubusercontent.com/128583292/235812882-18b27181-05b2-4216-824b-22f4cbe0e8c2.png)
+
+Tallensin tiedostot ja ajoin tämän jälkeen 'state.apply' komentoa minionille:
+
+    sudo salt minion1 state.apply 'win'
+    
+![image](https://user-images.githubusercontent.com/128583292/235811410-d0351c78-71fb-4415-a5ad-63bdb43f80dd.png)
+
+Ajoin komennon vielä toisen kerran varmistaakseen idempotenttisuuden toimivuutta (ottamalla kaikki minionit tällä kertaa):
+
+    sudo salt '*' state.apply 'win'
+
+![image](https://user-images.githubusercontent.com/128583292/235813226-313fd7db-bbfc-4614-8f6e-424084186903.png)
+
+Kävin tarkistamassa Minion koneen puolella tiedostoa, ja sieltähän se löytyy oikeasta paikasta:
+
+![image](https://user-images.githubusercontent.com/128583292/235813599-70ff71f9-168b-445c-a1d6-2405c53298f4.png)
 
 
-
+# d) 
+ 
 # Lähteet
 
 Infra as Code course 2023, Karvinen T., https://terokarvinen.com/2023/palvelinten-hallinta-2023-kevat/
