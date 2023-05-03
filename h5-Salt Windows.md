@@ -129,7 +129,16 @@ Kävin tarkistamassa Minion koneen puolella tiedostoa, ja sieltähän se löytyy
 ![image](https://user-images.githubusercontent.com/128583292/235813599-70ff71f9-168b-445c-a1d6-2405c53298f4.png)
 
 
-# d) 
+# d) Windows ohjelmien asennus Saltin kautta
+
+Aloitin asentamalla Windowsiin minioniin Git paketinhallinnan saltin kautta:
+
+    sudo salt-run winrepo.update_git_repos
+
+Sain tulokseksi 'Permission Denied' errorin, joten muutin 'srv/salt/win' polun oikeudet:
+
+    sudo chown root.salt /srv/salt/win
+    sudo chmod ug+rwx /srv/salt/win
  
 # Lähteet
 
