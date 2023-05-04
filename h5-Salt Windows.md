@@ -1,6 +1,6 @@
 # x)
 
-Tässä harjoituksessa käytetään Salt:ia ohjaamaan 2 Windows konetta, jotka toimivat minion koneina.
+Tässä harjoituksessa käytetään Salt:ia ohjaamaan Windows virtuaalikonetta, joka toimii minion koneina.
 
 Tehtävän ohjeistuksesta kävin läpi:
  
@@ -20,7 +20,7 @@ Tehtävän ohjeistuksesta kävin läpi:
  
  - Windows Server Minionien asennus, konfigurointi, sekä erilaiset mahdollisuudet ja toiminnon sen etäohjauksessa. 
  
-Harjoituksessa tulen siis käyttämään Master koneena VMware Ubuntu Desktop 22.04 LTS versiota, ja Minion koneena VMware Winodws 11 Enterprise (Evaluation) versiota.
+## Harjoituksessa tulen siis käyttämään Master koneena VMware Ubuntu Desktop 22.04 LTS versiota, ja Minion koneena VMware Winodws 11 Enterprise (Evaluation) versiota. Molemmat koneet toimivat VMware:n ympäristössä ja ovat yhteydessä isäntäkoneeni (Windows 11 Home) NAT verkon kautta.
  
 # a) Salt:in asennus Windowsille
 
@@ -139,7 +139,32 @@ Sain tulokseksi 'Permission Denied' errorin, joten muutin 'srv/salt/win' polun o
 
     sudo chown root.salt /srv/salt/win
     sudo chmod ug+rwx /srv/salt/win
- 
+
+Ajoin aikaisemman komennon uudestaan, ja sain onnistuneesti kytketty Git ohjelmistorepon päälle Minionille:
+
+![image](https://user-images.githubusercontent.com/128583292/236312230-f9a208d0-6f15-48a1-a5ee-19ddbe855c83.png)
+
+Tämän jälkeen päivitin kyseisen repon komennolla, ja sen perusteella löytyi 307 asennettavaa ohjelmaa:
+
+    sudo salt -G 'os:windows' pkg.refresh_db
+
+![image](https://user-images.githubusercontent.com/128583292/236313635-d973211a-a3bf-4208-8849-8b57607881dc.png)
+
+Yritin seuraavaksi asentaa VLC Media Player Saltilla:
+
+    sudo salt '*' pkg.install vlc
+
+![image](https://user-images.githubusercontent.com/128583292/236317115-fff01fce-03d0-46bf-8a17-5d53896aa04c.png)
+![image](https://user-images.githubusercontent.com/128583292/236317313-f0347397-a91e-482e-b5b7-17cdecd8e7aa.png)
+
+Asentaminen onnistui ja VLC näkyy Windows Minionilla!
+
+Seuraavaksi yritin poistaa saman ohjelman saltilla, jolloin VLC desktop pikavalinta myös katoaa Windows Minionilta!
+
+![image](https://user-images.githubusercontent.com/128583292/236317641-4de44014-d9ac-4d5c-b22a-9fbf1806477a.png)
+
+
+
 # Lähteet
 
 Infra as Code course 2023, Karvinen T., https://terokarvinen.com/2023/palvelinten-hallinta-2023-kevat/
@@ -149,4 +174,6 @@ Control Windows with Salt, Karvinen T., https://terokarvinen.com/2018/control-wi
 Salt minion windows '.exe' file, saltproject.io, https://docs.saltproject.io/salt/install-guide/en/latest/topics/install-by-operating-system/windows.html
 
 Windows 11 Enterprise VM download, Microsoft, https://developer.microsoft.com/en-us/windows/downloads/virtual-machines/
+
+Salt Modules (win_pkg), saltproject.io, https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.win_pkg.html#salt.modules.win_pkg.install
 
