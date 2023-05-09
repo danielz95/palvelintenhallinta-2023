@@ -7,7 +7,7 @@ tietyille sivustoille pääsyä.
 ## Isäntäkoneen specsit:
 - CPU: AMD Ryzen 5 3600, 6C/12T @ 4,3 GHz
 - GPU: Radeon RX 6800 XT
-- RAM: Kingston HyperX 16GB 3000Mhz DDR4
+- RAM: Kingston HyperX 16GB 3200Mhz DDR4
 - HDD: 1 TB Samsung QVO SSD
 
 ### Toteutan projektin VMWare Workstation Player 17 ympäristössä jossa toimii:
@@ -76,6 +76,33 @@ Nyt testasin yhteyden molempiin minioniin:
 
 Molemmat minionit ovat nyt hallittavissa.
 
+# Ensin käsin
+
+Aloitin asentamalla Ubuntu Masterille Chrome-selaimen hakemalla asennuspakettia googlelta:
+
+    wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+    
+Asensin paketin komennolla:
+    
+    sudo dpkg -i google-chrome-stable_current_amd64.deb
+
+![image](https://user-images.githubusercontent.com/128583292/236978765-d0e8eeed-90c2-4edf-b696-302d78da2632.png)
+
+Chrome on nyt asennettu.
+
+### Chrome policies ja 'preference.json' konfigurointitiedostot
+
+Seuraavaksi meidän täytyy luoda uudet kansiot, johon chromen policy:t sijoitetaan:
+
+    cd /etc/opt/
+    sudo mkdir -p chrome/policies/managed
+
+![image](https://user-images.githubusercontent.com/128583292/236980779-3dccd67b-bd42-4948-94b2-d193c1e6fe0b.png)
+
+Googlelta latasin template-tiedoston, josta löytyy satoja eri vaihtoehtoja chromen konfiguraatiohin. Sen saa ladattua 
+<a href=https://dl.google.com/dl/edgedl/chrome/policy/policy_templates.zip>tästä </a>.
+
+## En ole päässyt tästä pidemmälle projektissa, mutta seuraavaksi tarkistelen policy:n tekemistä, 'initial_prerefences.json' tiedoston luomista ja sen implementointia Chromen alkuasetuksiin.
 
 
 
@@ -84,3 +111,7 @@ Molemmat minionit ovat nyt hallittavissa.
 initial_preferencees documentation, Google Support, https://support.google.com/chrome/a/answer/187948?hl=en#zippy=%2Cstep-create-the-initial-preferences-file
 
 Control Windows and Linux with single salt module, Karvinen. T 2018, https://terokarvinen.com/2018/configure-windows-and-linux-with-salt-jinja-if-else-and-grains/
+
+Chrome on Linux, WikiHow, https://www.wikihow.com/Install-Google-Chrome-Using-Terminal-on-Linux
+
+Chrome policies, Google Support, https://support.google.com/chrome/a/answer/9025903?hl=en&ref_topic=9025817&sjid=10060259247724311218-EU
