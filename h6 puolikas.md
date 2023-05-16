@@ -162,6 +162,8 @@ Testasin vielä, että 'URLBlocklist' käytäntö toimii niin kuin pitää:
 
 # Chrome:n ja sen 'managed_policies.json' käytäntöjen puskeminen minioneille
 
+## Debian Minion
+
 Aloitin kokeilemalla ensin luomaan idempotenttia Debian Minionille.
 
 Kopioin aikaisemmin ladatun chromen .deb asennuspakettia ja managed_policies.json tiedostoa  'srv/salt/chrome' polkuun
@@ -203,6 +205,37 @@ Testasin vielä Debian Minionilla, että Chrome on asentunut ja käytännöt tul
 ![image](https://github.com/danielz95/palvelintenhallinta-2023/assets/128583292/96487f3c-9ef5-40dd-98d6-e6fc1b0d0bfb)
 ![image](https://github.com/danielz95/palvelintenhallinta-2023/assets/128583292/e06cddd4-be89-494d-a0a5-21a59b0cf59c)
 
+## Windows Minion
+
+Aloitin lataamalla asennuspakettia Chrome Enterprise versiolle, jonka mukana tulee tarvittavat '.adml' ja '.admx' Windows administrative templates-tiedostot:
+
+    wget https://dl.google.com/tag/s/appguid%253D%257B8A69D345-D564-463C-AFF1-A69D9E530F96%257D%2526iid%253D%257BBEF3DB5A-5C0B-4098-B932-87EC614379B7%257D%2526lang%253Den%2526browser%253D4%2526usagestats%253D1%2526appname%253DGoogle%252520Chrome%2526needsadmin%253Dtrue%2526ap%253Dx64-stable-statsdef_1%2526brand%253DGCEB/dl/chrome/install/GoogleChromeEnterpriseBundle64.zip?_ga%3D2.8891187.708273100.1528207374-1188218225.1527264447
+
+![image](https://github.com/danielz95/palvelintenhallinta-2023/assets/128583292/657f2d99-267a-4090-98cd-084284b334b5)
+
+Latauksen jälkeen purin .zip tiedoston:
+
+    unzip 'GoogleChromeEnterpriseBundle64.zip?_ga=2.8891187.708273100.1528207374-1188218225.1527264447'
+
+Tämän jälkeen kopioin 4 kpl tarvittavat .adml ja .admx tiedostot jotka löytyivät purkamisen jälkeen ~/Configuration/admx kansiosta '/srv/salt/chrome' polkuun:
+
+    cp Configuration/admx/chrome.admx srv/salt/chrome
+    cp Configuration/admx/google.admx srv/salt/chrome
+    cp Configuration/admx/en-US/chrome.adml srv/salt/chrome
+    cp Configuration/admx/en-US/google.adml srv/salt/chrome
+
+![image](https://github.com/danielz95/palvelintenhallinta-2023/assets/128583292/dbb6fbd5-9ff8-4d84-9b1a-8456be817ad9)
+
+
+Kun kopioinnit olivat tehty, muokkasin 'init.sls' tiedoston ajamaan 'file.managed' toimintoa Windows Minionin polkuihin:
+
+![image](https://github.com/danielz95/palvelintenhallinta-2023/assets/128583292/b5625653-1e5b-451a-a087-b8c6ef069540)
+
+### Käytän siis yhteistä init.sls tiedostoa myös Linux:in kanssa, joten 'state.apply' saattaa näyttää tarkoituksella virheitä.
+
+
+
+### Source file salt://source_file not found in saltenv 'base'
 
 
 
