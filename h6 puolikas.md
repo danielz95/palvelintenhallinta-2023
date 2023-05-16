@@ -235,10 +235,19 @@ Kun kopioinnit olivat tehty, muokkasin 'init.sls' tiedoston ajamaan 'file.manage
 
 
 
-### Source file salt://source_file not found in saltenv 'base'
+## Source file salt://source_file not found in saltenv 'base'
 
+![image](https://github.com/danielz95/palvelintenhallinta-2023/assets/128583292/8bfe19ee-7326-4d3f-b2fb-820305c3f81d)
 
+pkg.installed menee läpi asentaessa Chromen 'winrepon' kautta, mutta
 
+yrittäessäni ajaa 'file.managed' toimintoa Windows Minionille, Salt antaa toistuvasti virheen **Source file salt://source_file not found in saltenv 'base'**
+
+Olin n. 2 tuntia yrittänyt etsiä mahdollista ratkaisua tähän virheeseen mm. StackOverflow:sta, SaltStack dokumentaatiosta, mutta en saanut ratkottua tätä.
+
+Tarkoitukseni oli konfiguroida Chromen Policy:t Windows minion koneella käsin, jonka jälkeen kopioida muuttuneet .admx ja .adml tiedostot 'srv/salt/win' Ubuntu Master polkuun, jolloin saan valmiit konfiguraatiotiedostot puskettua idempotentilla Windows:iin.
+
+Tämä ei kuitenkaan olisi onnistunut, ilman että saan idempotentin alunperinkään toimimaan kyseisen virheen takia.
 
 
 # Lähteet
@@ -249,3 +258,5 @@ Control Windows and Linux with single salt module, Karvinen. T 2018, https://ter
 Chrome on Linux, WikiHow, https://www.wikihow.com/Install-Google-Chrome-Using-Terminal-on-Linux
 
 Chrome policies, Google Support, https://support.google.com/chrome/a/answer/9025903?hl=en&ref_topic=9025817&sjid=10060259247724311218-EU
+
+
