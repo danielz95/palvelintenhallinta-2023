@@ -160,6 +160,54 @@ Testasin vielä, että 'URLBlocklist' käytäntö toimii niin kuin pitää:
 
 ### Alkuperäinen suunnitelma oli ladata BlockSite lisäosa, konfiguroida sen estämään tietyt sivustot ja puskemaan lisäosan automaattista asennusta ja konffausta minioneille, mutta en löytänyt järkevää tapaa toteuttaa sen. Tyydyin tällöin käyttämään 'URLBlocklist' käytäntöä, mikä periaatteessa ajaa saman asian.
 
+# Chrome:n ja sen 'managed_policies.json' käytäntöjen puskeminen minioneille
+
+Aloitin kokeilemalla ensin luomaan idempotenttia Debian Minionille.
+
+Kopioin aikaisemmin ladatun chromen .deb asennuspakettia ja managed_policies.json tiedostoa  'srv/salt/chrome' polkuun
+
+    sudo cp google-chrome-stable_current_amd64.deb /srv/salt/chrome
+    sudo cp /etc/opt/chrome/policies/managed/managed_policies.json /srv/salt/chrome
+
+Loin tämän jälkeen .sls tiedoston, joka asentaa Chromen meidän valmiista .deb paketista ja kopioi 'managed_policies.json' tiedoston oikeaan polkuun:
+
+    chrome:
+      pkg.installed:
+        - sources:
+        - google-chrome-stable: salt://chrome/google-chrome-stable_current_amd64.deb 
+      - mode: 755
+
+    /etc/opt/chrome/policies/managed/managed_policies.json:
+      file.managed:
+      - source: salt://chrome/managed_policies.json
+      - makedirs: true
+      - mode: 755
+
+![image](https://github.com/danielz95/palvelintenhallinta-2023/assets/128583292/e64f9e6b-281f-418d-b0dd-1e1a411b40d6)
+
+Tämän jälkeen, ajoin 'state.apply' komentoa minioneille:
+
+    sudo salt '*' state.apply chrome
+
+![image](https://github.com/danielz95/palvelintenhallinta-2023/assets/128583292/ac2adb6e-34fd-4c72-a0b8-4deccb46cf10)
+
+![image](https://github.com/danielz95/palvelintenhallinta-2023/assets/128583292/19ebbd06-b7b0-43ca-9485-0f55b4687af0)
+
+### minion2 (debian) sai paketin asennettua ja tiedoston luotua, mutta minion1 (windows) ei, tämä siis odotettua, sillä siihen ei toimi Linux:in polut ja pkg.installed tilaa. Luodaan ne seuraavassa vaiheessa.
+
+Testasin vielä Debian Minionilla, että Chrome on asentunut ja käytännöt tulleet voimaan:
+
+![image](https://github.com/danielz95/palvelintenhallinta-2023/assets/128583292/ed532db5-934c-4270-b805-93fe70f6a5b0)
+
+![image](https://github.com/danielz95/palvelintenhallinta-2023/assets/128583292/ac18ee86-4145-417c-ad79-50796b424987)
+![image](https://github.com/danielz95/palvelintenhallinta-2023/assets/128583292/96487f3c-9ef5-40dd-98d6-e6fc1b0d0bfb)
+![image](https://github.com/danielz95/palvelintenhallinta-2023/assets/128583292/e06cddd4-be89-494d-a0a5-21a59b0cf59c)
+
+
+
+
+
+
 # Lähteet
 initial_preferencees documentation, Google Support, https://support.google.com/chrome/a/answer/187948?hl=en#zippy=%2Cstep-create-the-initial-preferences-file
 
