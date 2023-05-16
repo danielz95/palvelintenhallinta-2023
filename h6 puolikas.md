@@ -5,7 +5,7 @@ Oletuskonfiguraatiossa tulee olemaan Haaga-Helian kotisivu, sekä valmiiksi asen
 tietyille sivustoille pääsyä.
 
 ## Isäntäkoneen specsit:
-- CPU: AMD Ryzen 5 3600, 6C/12T @ 4,3 GHz
+- CPU: AMD Ryzen 7 5800X3D, 8C/16T @ 3,6 GHz
 - GPU: Radeon RX 6800 XT
 - RAM: Kingston HyperX 16GB 3200Mhz DDR4
 - HDD: 1 TB Samsung QVO SSD
@@ -90,7 +90,7 @@ Asensin paketin komennolla:
 
 Chrome on nyt asennettu.
 
-### Chrome policies ja 'preference.json' konfigurointitiedostot
+### Chrome policies ja 'managed_policies.json' konfigurointitiedostot
 
 Seuraavaksi meidän täytyy luoda uudet kansiot, johon chromen policy:t sijoitetaan:
 
@@ -99,13 +99,66 @@ Seuraavaksi meidän täytyy luoda uudet kansiot, johon chromen policy:t sijoitet
 
 ![image](https://user-images.githubusercontent.com/128583292/236980779-3dccd67b-bd42-4948-94b2-d193c1e6fe0b.png)
 
-Googlelta latasin template-tiedoston, josta löytyy satoja eri vaihtoehtoja chromen konfiguraatiohin. Sen saa ladattua 
-<a href=https://dl.google.com/dl/edgedl/chrome/policy/policy_templates.zip>tästä </a>.
+Loin seuraavaksi 'managed_policies.json' tiedoston polkuun 'etc/opt/chrome/policies/managed'
 
-## En ole päässyt tästä pidemmälle projektissa, mutta seuraavaksi tarkistelen policy:n tekemistä, 'initial_prerefences.json' tiedoston luomista ja sen implementointia Chromen alkuasetuksiin.
+    cd /etc/opt/chrome/policies/managed
+    sudoedit managed_policies.json
 
+Kopioin esimerkkitiedostoa 'managed_policies.json' <a href=https://github.com/google/ChromeBrowserEnterprise/blob/main/docs/policy_examples/managed_policies.json> tästä</a>, jonka olen muokannut omiin tarpeisiin:
 
+    {
+        "HomepageLocation": "https://www.haaga-helia.fi",
+        "HomepageIsNewTabPage": false,
+        "DefaultBrowserSettingEnabled": true,
+        "RestoreOnStartup": 1,
+        "SafeBrowsingProtectionLevel": 1,
+        "MaxConnectionsPerProxy": 99,
+        "ShowHomeButton": true,
+        "URLBlocklist": [
+            "www.youtube.com",
+            "www.wikipedia.org",
+            "www.bing.com"
+        ],
+        "ExtensionInstallForcelist": [
+            "noondiphcddnnabmjcihcjfbhfklnnep",
+            "djflhoibgkdhkhhcedjiklpkjnoahfmg"
+        ],
+        "ManagedBookmarks": [
+            {
+            "name": "Tuudo",
+            "url": "tuudo.fi"
+            },
+            {
+            "name": "3AMK",
+            "url": "3amk.fi"
+            },
+            {
+            "name": "Haaga-Helia",
+            "url": "haaga-helia.fi"
+            }
+        ]
+    }
 
+Tämän jälkeen tallensin tiedoston ja avasin Ubuntu Masterilla Chromen. Tarkistin käytäntöjen tilaa syöttämällä hakukenttään:
+
+    chrome://policy
+
+![image](https://github.com/danielz95/palvelintenhallinta-2023/assets/128583292/5760e7e2-99bd-4f49-a6b7-7d211b4b727c)
+
+### Yllä näkyy, kuinka käytännöt ovat voimassa 'Status: OK' indikaattorilla. Ainut ongelma mihin törmäsin oli, ettei kotisivua (www.haaga-helia.fi) saa automaattisesti näkyville, kun avaa selainta. Se toimii ainoastaan, kun painetaan Homepage-nappia hakukentän vierestä : 
+
+![image](https://github.com/danielz95/palvelintenhallinta-2023/assets/128583292/ab15b8ab-58d0-49b1-8046-2a325a359986)
+![image](https://github.com/danielz95/palvelintenhallinta-2023/assets/128583292/1a96156c-2e5c-4996-8c38-331eb00dd56e)
+
+Alla näkyy myös 'Managed Bookmarks' kirjainmerkit, mitkä ovat asetettu:
+
+![image](https://github.com/danielz95/palvelintenhallinta-2023/assets/128583292/5197c835-5d04-4706-9151-1f782fd61553)
+
+Testasin vielä, että 'URLBlocklist' käytäntö toimii niin kuin pitää:
+
+![image](https://github.com/danielz95/palvelintenhallinta-2023/assets/128583292/fa998135-8f87-4460-8985-a4968dbf98a1)
+
+### Alkuperäinen suunnitelma oli ladata BlockSite lisäosa, konfiguroida sen estämään tietyt sivustot ja puskemaan lisäosan automaattista asennusta ja konffausta minioneille, mutta en löytänyt järkevää tapaa toteuttaa sen. Tyydyin tällöin käyttämään 'URLBlocklist' käytäntöä, mikä periaatteessa ajaa saman asian.
 
 # Lähteet
 initial_preferencees documentation, Google Support, https://support.google.com/chrome/a/answer/187948?hl=en#zippy=%2Cstep-create-the-initial-preferences-file
